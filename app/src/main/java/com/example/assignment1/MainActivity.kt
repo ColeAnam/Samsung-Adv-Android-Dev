@@ -102,7 +102,13 @@ fun MainScreen() {
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                scope.launch {
+                    username = savedUsernameState.value ?: ""
+                    email = savedEmailState.value ?: ""
+                    id = savedIDState.value ?: ""
+                }
+            }) {
                 Text(text = "Load")
             }
 
@@ -119,68 +125,23 @@ fun MainScreen() {
             }
         }
 
-        Info(infoName = savedUsernameState.value ?: "<Your Name>", infoID = savedIDState.value ?: "<Your College ID>")
+        if (username == "" || id == "") {
+            Info(infoName = "<Your Name>", infoID = "<Your College ID>")
+        }
+        else {
+            Info(infoName = username, infoID = id)
+        }
     }
 }
-
-//@Composable
-//fun Inputs(
-//    username: String,
-//    email: String,
-//    id: String,
-//    onUsernameChange: (String) -> Unit,
-//    onEmailChange: (String) -> Unit,
-//    onIDChange: (String) -> Unit,
-//) {
-//    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
-//        OutlinedTextField(
-//            value = username,
-//            onValueChange = { username = it },
-//            singleLine = true,
-//            label = {
-//                Text("Username")
-//            }
-//        )
-//        OutlinedTextField(
-//            value = email,
-//            onValueChange = { onEmailChange(it) },
-//            singleLine = true,
-//            label = {
-//                Text("Email")
-//            }
-//        )
-//        OutlinedTextField(
-//            value = id,
-//            onValueChange = { onIDChange(it) },
-//            singleLine = true,
-//            label = {
-//                Text("ID")
-//            }
-//        )
-//    }
-//}
-
-//@Composable
-//fun Buttons() {
-//    Row(verticalAlignment = Alignment.CenterVertically) {
-//        Button(onClick = { /*TODO*/ }) {
-//            Text(text = "Load")
-//        }
-//        Button(onClick = { /*TODO*/ }, Modifier.padding(horizontal = 16.dp)) {
-//            Text(text = "Save")
-//        }
-//        Button(onClick = { /*TODO*/ }) {
-//            Text(text = "Clear")
-//        }
-//    }
-//}
 
 @Composable
 fun Info(
     infoName: String,
     infoID: String
 ) {
-    Column(modifier = Modifier.padding(150.dp)) {
+    Column(modifier = Modifier
+        .padding(20.dp, top = 130.dp)
+        .fillMaxWidth()) {
         Text(infoName, style = TextStyle(color = Color.Blue))
         Text(infoID, style = TextStyle(color = Color.Blue))
     }
