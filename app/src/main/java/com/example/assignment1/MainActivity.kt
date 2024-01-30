@@ -13,17 +13,21 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.assignment1.datastore.StoreStudentInfo
 import com.example.assignment1.ui.theme.Assignment1Theme
 
 class MainActivity : ComponentActivity() {
@@ -44,37 +48,50 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(
-//    username: String,
-//    email: String,
-//    id: String
-) {
+fun MainScreen() {
+    // context
+    val context = LocalContext.current
+    // scope
+    val scope = rememberCoroutineScope()
+    // datastore Email
+    val dataStore = StoreStudentInfo(context)
+
+    val savedUsernameState = dataStore.getUsername.collectAsState(initial = "")
+    val savedEmailState = dataStore.getEmail.collectAsState(initial = "")
+    val savedIDState = dataStore.getID.collectAsState(initial = "")
+
+    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var id by remember { mutableStateOf("") }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
 
-        var usernameState by remember {
-            mutableStateOf("")
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
+            OutlinedTextField(
+                value = username,
+                onValueChange = { username = it },
+                singleLine = true,
+                label = {
+                    Text("Username")
+                }
+            )
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                singleLine = true,
+                label = {
+                    Text("Email")
+                }
+            )
+            OutlinedTextField(
+                value = id,
+                onValueChange = { id = it },
+                singleLine = true,
+                label = {
+                    Text("ID")
+                }
+            )
         }
-
-        var emailState by remember {
-            mutableStateOf("")
-        }
-
-        var idState by remember {
-            mutableStateOf("")
-        }
-
-        val onUsernameChange = { text: String -> usernameState = text }
-        val onEmailChange = { text: String -> emailState = text }
-        val onIDChange = { text: String -> idState = text }
-
-        Inputs(
-            username = usernameState,
-            email = emailState,
-            id = idState,
-            onUsernameChange = onUsernameChange,
-            onEmailChange = onEmailChange,
-            onIDChange = onIDChange
-        )
 
         Buttons()
 
@@ -82,42 +99,42 @@ fun MainScreen(
     }
 }
 
-@Composable
-fun Inputs(
-    username: String,
-    email: String,
-    id: String,
-    onUsernameChange: (String) -> Unit,
-    onEmailChange: (String) -> Unit,
-    onIDChange: (String) -> Unit,
-) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
-        OutlinedTextField(
-            value = username,
-            onValueChange = { onUsernameChange(it) },
-            singleLine = true,
-            label = {
-                Text("Username")
-            }
-        )
-        OutlinedTextField(
-            value = email,
-            onValueChange = { onEmailChange(it) },
-            singleLine = true,
-            label = {
-                Text("Email")
-            }
-        )
-        OutlinedTextField(
-            value = id,
-            onValueChange = { onIDChange(it) },
-            singleLine = true,
-            label = {
-                Text("ID")
-            }
-        )
-    }
-}
+//@Composable
+//fun Inputs(
+//    username: String,
+//    email: String,
+//    id: String,
+//    onUsernameChange: (String) -> Unit,
+//    onEmailChange: (String) -> Unit,
+//    onIDChange: (String) -> Unit,
+//) {
+//    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
+//        OutlinedTextField(
+//            value = username,
+//            onValueChange = { username = it },
+//            singleLine = true,
+//            label = {
+//                Text("Username")
+//            }
+//        )
+//        OutlinedTextField(
+//            value = email,
+//            onValueChange = { onEmailChange(it) },
+//            singleLine = true,
+//            label = {
+//                Text("Email")
+//            }
+//        )
+//        OutlinedTextField(
+//            value = id,
+//            onValueChange = { onIDChange(it) },
+//            singleLine = true,
+//            label = {
+//                Text("ID")
+//            }
+//        )
+//    }
+//}
 
 @Composable
 fun Buttons() {
@@ -147,7 +164,7 @@ fun Info(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun GreetingPreview() {
+fun Preview() {
     Assignment1Theme {
         MainScreen()
     }
