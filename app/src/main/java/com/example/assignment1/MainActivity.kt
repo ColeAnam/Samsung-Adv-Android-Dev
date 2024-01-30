@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.assignment1.datastore.StoreStudentInfo
 import com.example.assignment1.ui.theme.Assignment1Theme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,14 +68,18 @@ fun MainScreen() {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(20.dp)
+        ) {
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
                 singleLine = true,
                 label = {
                     Text("Username")
-                }
+                },
+                modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = email,
@@ -81,7 +87,8 @@ fun MainScreen() {
                 singleLine = true,
                 label = {
                     Text("Email")
-                }
+                },
+                modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = id,
@@ -89,13 +96,30 @@ fun MainScreen() {
                 singleLine = true,
                 label = {
                     Text("ID")
-                }
+                },
+                modifier = Modifier.fillMaxWidth()
             )
         }
 
-        Buttons()
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Load")
+            }
 
-        Info(infoName = "temp", infoID = "0")
+            Button(onClick = {
+                scope.launch {
+                    dataStore.saveInfo(username, email, id)
+                }
+            }, Modifier.padding(horizontal = 16.dp)) {
+                Text(text = "Save")
+            }
+            
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Clear")
+            }
+        }
+
+        Info(infoName = savedUsernameState.value ?: "<Your Name>", infoID = savedIDState.value ?: "<Your College ID>")
     }
 }
 
@@ -136,20 +160,20 @@ fun MainScreen() {
 //    }
 //}
 
-@Composable
-fun Buttons() {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "Load")
-        }
-        Button(onClick = { /*TODO*/ }, Modifier.padding(horizontal = 16.dp)) {
-            Text(text = "Save")
-        }
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "Clear")
-        }
-    }
-}
+//@Composable
+//fun Buttons() {
+//    Row(verticalAlignment = Alignment.CenterVertically) {
+//        Button(onClick = { /*TODO*/ }) {
+//            Text(text = "Load")
+//        }
+//        Button(onClick = { /*TODO*/ }, Modifier.padding(horizontal = 16.dp)) {
+//            Text(text = "Save")
+//        }
+//        Button(onClick = { /*TODO*/ }) {
+//            Text(text = "Clear")
+//        }
+//    }
+//}
 
 @Composable
 fun Info(
