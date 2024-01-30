@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -18,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.assignment1.ui.theme.Assignment1Theme
 
@@ -70,6 +73,8 @@ fun MainScreen(
             onEmailChange = onEmailChange,
             onIDChange = onIDChange
         )
+
+        Buttons()
     }
 }
 
@@ -82,7 +87,7 @@ fun Inputs(
     onEmailChange: (String) -> Unit,
     onIDChange: (String) -> Unit,
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
         OutlinedTextField(
             value = username,
             onValueChange = { onUsernameChange(it) },
@@ -113,7 +118,15 @@ fun Inputs(
 @Composable
 fun Buttons() {
     Row(verticalAlignment = Alignment.CenterVertically) {
-
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "Load")
+        }
+        Button(onClick = { /*TODO*/ }, Modifier.padding(horizontal = 16.dp)) {
+            Text(text = "Save")
+        }
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "Clear")
+        }
     }
 }
 
