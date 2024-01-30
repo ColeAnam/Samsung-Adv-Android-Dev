@@ -19,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
@@ -75,6 +77,8 @@ fun MainScreen(
         )
 
         Buttons()
+
+        Info(infoName = "temp", infoID = "0")
     }
 }
 
@@ -130,12 +134,21 @@ fun Buttons() {
     }
 }
 
+@Composable
+fun Info(
+    infoName: String,
+    infoID: String
+) {
+    Column(modifier = Modifier.padding(150.dp)) {
+        Text(infoName, style = TextStyle(color = Color.Blue))
+        Text(infoID, style = TextStyle(color = Color.Blue))
+    }
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
     Assignment1Theme {
-        MainScreen(
-
-        )
+        MainScreen()
     }
 }
