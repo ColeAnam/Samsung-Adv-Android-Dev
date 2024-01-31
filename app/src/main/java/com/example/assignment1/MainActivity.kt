@@ -3,6 +3,7 @@ package com.example.assignment1
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -101,7 +103,7 @@ fun MainScreen() {
             )
         }
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 130.dp)) {
             Button(onClick = {
                 scope.launch {
                     username = savedUsernameState.value ?: ""
@@ -120,7 +122,14 @@ fun MainScreen() {
                 Text(text = "Save")
             }
             
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                scope.launch {
+                    dataStore.clearData()
+                    username = ""
+                    email = ""
+                    id = ""
+                }
+            }) {
                 Text(text = "Clear")
             }
         }
@@ -140,7 +149,7 @@ fun Info(
     infoID: String
 ) {
     Column(modifier = Modifier
-        .padding(20.dp, top = 130.dp)
+        .padding(20.dp)
         .fillMaxWidth()) {
         Text(infoName, style = TextStyle(color = Color.Blue))
         Text(infoID, style = TextStyle(color = Color.Blue))
